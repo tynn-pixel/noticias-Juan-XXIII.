@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#167447">
+    <title>Noticias de la Juan XXIII</title>
+
+<style>
+:root {
+    --verde: #167447;
+    --verde-oscuro: #105637;
+    --negro: #111;
+    --blanco: #fff;
+    --gris: #f4f4f4;
+    --borde: #d9d9d9;
+    --rojo: #b42318;
+}
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--gris);
+    color: var(--negro);
+    line-height: 1.6;
+}
+
+header {
+    background: var(--verde);
+    color: white;
+    padding: 28px 18px;
+    text-align: center;
+}
+
+header img {
+    width: 110px;
+    max-width: 35vw;
+    height: auto;
+    object-fit: contain;
+}
+header h1 { margin: 10px 0; line-height: 1.25; }
+header p { margin: 0; }
+nav {
+    background: var(--negro);
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px;
+}
+nav button {
+    background: transparent;
+    color: white;
+    border: 1px solid transparent;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+}
+nav button:hover, nav button.activo {
+    background: #2b2b2b;
+    border-color: #777;
+}
+button, input, textarea, select { font: inherit; }
+button:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible {
+    outline: 3px solid #75b798;
+    outline-offset: 2px;
+}
+main {
+    max-width: 950px;
+    margin: 24px auto;
+    padding: 0 16px;
+    min-height: 55vh;
+}
+.pagina { display: none; }
+.pagina.activa { display: block; }
+article, .panel {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    overflow-wrap: anywhere;
+}
+article h3 { margin-top: 8px; }
+.oficial {
+    display: inline-block;
+    background: #e5f4eb;
+    color: var(--verde-oscuro);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.muted { color: #666; font-size: 14px; }
+.formulario { display: grid; gap: 16px; }
+.formulario > div { display: grid; gap: 6px; }
+.etiqueta { font-weight: bold; }
+input, textarea, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background: white;
+    color: var(--negro);
+}
+textarea { min-height: 120px; resize: vertical; }
+.btn {
+    background: var(--verde);
+    color: white;
+    border: none;
+    padding: 11px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn:hover { background: var(--verde-oscuro); }
+.btn-sec { background: #333; }
+.btn-sec:hover { background: #000; }
+.btn-reportar {
+    color: var(--rojo);
+    border: 1px solid #e4b5b2;
+    background: white;
+}
+.btn-reportar:hover { background: #fff0ef; }
+.btn-borrar {
+    color: var(--rojo) !important;
+    border: 1px solid #e4b5b2 !important;
+    background: white !important;
+    font-weight: bold;
+}
+.btn-borrar:hover { background: #fff0ef !important; }
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0;
+}
+.acciones button, .btn-pequeno {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid var(--borde);
+    background: white;
+    cursor: pointer;
+}
+.acciones button:hover, .btn-pequeno:hover { background: #eee; }
+.zona-respuestas {
+    border-top: 1px solid var(--borde);
+    margin-top: 16px;
+    padding-top: 12px;
+}
+.respuesta {
+    background: #f7f7f7;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 8px 0;
+}
+.respuesta-cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.oculto { display: none !important; }
+.estado {
+    padding: 10px;
+    border-radius: 6px;
+    background: #edf7f0;
+    color: var(--verde-oscuro);
+}
+.vacio {
+    padding: 18px;
+    text-align: center;
+    background: white;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+}
+footer {
+    background: var(--negro);
+    color: white;
+    text-align: center;
+    padding: 22px 16px;
+    margin-top: 32px;
+}
+footer p { margin: 5px; }
+@media (max-width: 600px) {
+    header { padding: 22px 12px; }
+    header h1 { font-size: 25px; }
+    nav { gap: 5px; }
+    nav button { padding: 10px; font-size: 14px; }
+    main { margin-top: 16px; padding: 0 12px; }
+    article, .panel { padding: 15px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+    <img src="logo.png.jpeg" alt="Logo de la Escuela Juan XXIII"
+         onerror="this.style.display='none'">
+    <h1>Noticias de la Juan XXIII</h1>
+    <p>Información oficial para toda la comunidad educativa</p>
+</header>
+
+<nav aria-label="Menú principal">
+    <button type="button" data-pagina="inicio">Inicio</button>
+    <button type="button" data-pagina="avisos">Avisos</button>
+    <button type="button" data-pagina="actividades">Actividades</button>
+    <button type="button" data-pagina="foro">Foro</button>
+    <button type="button" data-pagina="cuenta">Mi cuenta</button>
+</nav>
+
+<main>
+<section class="pagina activa" id="inicio">
+    <h2>Bienvenidos a Noticias de la Juan XXIII</h2>
+    <article>
+        <h3>Información escolar en un solo lugar</h3>
+        <p>Este sitio busca reunir los avisos, las actividades y las novedades importantes de nuestra institución.</p>
+        <p>El objetivo es facilitar la comunicación entre estudiantes, docentes, directivos y familias.</p>
+        <button class="btn" type="button" data-ir="avisos">Consultar avisos</button>
+        <button class="btn btn-sec" type="button" data-ir="actividades">Ver actividades</button>
+    </article>
+    <article>
+        <h3>¿Qué podés encontrar?</h3>
+        <p>📢 Comunicados y avisos importantes.</p>
+        <p>📆 Información sobre viajes y actividades escolares.</p>
+        <p>💬 Un espacio de prueba para preguntas y propuestas.</p>
+    </article>
+</section>
+
+<section class="pagina" id="avisos">
+    <h2>📢 Avisos importantes</h2>
+    <article>
+        <span class="oficial">✓ Información institucional</span>
+        <h3>Información sobre próximas actividades</h3>
+        <p>La institución informará por este medio las novedades, actividades y comunicados de interés general para toda la comunidad educativa.</p>
+        <p>📅 <strong>Fecha:</strong> Próximamente</p>
+    </article>
+    <p class="muted">Esta versión es una demostración. Los avisos son ejemplos y no representan comunicados oficiales reales.</p>
+</section>
+
+<section class="pagina" id="actividades">
+    <h2>📆 Próximas actividades</h2>
+    <article>
+        <span class="oficial">✓ Información institucional</span>
+        <h3>🚌 Viaje escolar</h3>
+        <p>La institución informará los detalles relacionados con los próximos viajes escolares.</p>
+        <p>📅 <strong>Fecha:</strong> A confirmar</p>
+        <p>📍 <strong>Destino:</strong> A confirmar</p>
+        <p>🕐 <strong>Horario de salida:</strong> A confirmar</p>
+        <p>💰 <strong>Precio:</strong> A confirmar</p>
+        <p>🎒 <strong>Qué llevar:</strong> Se informará próximamente</p>
+    </article>
+    <article>
+        <span class="oficial">✓ Información institucional</span>
+        <h3>📚 Feria educativa</h3>
+        <p>La institución informará las fechas, los horarios y los detalles de las próximas ferias y actividades educativas.</p>
+        <p>📅 <strong>Fecha:</strong> A confirmar</p>
+        <p>🕐 <strong>Horario:</strong> A confirmar</p>
+        <p>📍 <strong>Lugar:</strong> Escuela Juan XXIII</p>
+    </article>
+</section>
+
+<section class="pagina" id="foro">
+    <h2>💬 Foro de la comunidad</h2>
+    <article>
+        <h3>Compartí una pregunta o una idea</h3>
+        <p>Este espacio permite probar publicaciones, preguntas y propuestas para la comunidad educativa.</p>
+        <p class="muted">Usá un nombre ficticio durante las pruebas. No publiques datos personales.</p>
+        <form id="form-publicacion" class="formulario">
+            <div>
+                <label class="etiqueta" for="tipo-publicacion">Tipo de publicación</label>
+                <select id="tipo-publicacion">
+                    <option>Pregunta</option>
+                    <option>Idea o propuesta</option>
+                    <option>General</option>
+                </select>
+            </div>
+            <div>
+                <label class="etiqueta" for="titulo-publicacion">Título</label>
+                <input id="titulo-publicacion" maxlength="100" required
+                       placeholder="Ej.: Propuesta para la maratón de lectura">
+            </div>
+            <div>
+                <label class="etiqueta" for="texto-publicacion">¿Qué querés compartir?</label>
+                <textarea id="texto-publicacion" maxlength="1500" required
+                          placeholder="Escribí tu publicación..."></textarea>
+            </div>
+            <button class="btn" type="submit">Publicar</button>
+            <p id="estado-publicacion" class="muted" aria-live="polite"></p>
+        </form>
+    </article>
+    <h2>Publicaciones</h2>
+    <div id="lista-publicaciones"></div>
+    <p id="sin-publicaciones" class="vacio">Todavía no hay publicaciones. ¡Podés crear la primera!</p>
+</section>
+
+<section class="pagina" id="cuenta">
+    <h2>👤 Cuenta y modos de prueba</h2>
+    <article>
+        <p>Elegí un nombre público y un modo para demostrar cómo cambiaría la experiencia de la página.</p>
+        <p class="muted">La administración es una simulación local. No constituye un sistema de permisos seguro.</p>
+        <form id="form-cuenta" class="formulario">
+            <div>
+                <label class="etiqueta" for="nombre-usuario">Nombre público de prueba</label>
+                <input id="nombre-usuario" maxlength="40" placeholder="Ej.: Estudiante 5.º">
+            </div>
+            <div>
+                <label class="etiqueta" for="curso-usuario">Curso (opcional)</label>
+                <input id="curso-usuario" maxlength="30" placeholder="Ej.: 5.º año">
+            </div>
+            <div>
+                <label class="etiqueta" for="rol-usuario">Modo</label>
+                <select id="rol-usuario">
+                    <option value="estudiante">Estudiante</option>
+                    <option value="administracion">Administración (demo)</option>
+                </select>
+            </div>
+            <button class="btn" type="submit">Guardar modo de prueba</button>
+            <p id="estado-cuenta" class="estado" aria-live="polite">Modo actual: Estudiante</p>
+        </form>
+    </article>
+
+    <div id="panel-admin" class="panel oculto">
+        <h3>🛠️ Panel de administración (demo)</h3>
+        <p>Desde esta demostración se pueden revisar los reportes y borrar cualquier publicación o respuesta del foro.</p>
+        <button class="btn btn-sec" id="ver-reportes" type="button">Ver publicaciones reportadas</button>
+        <div id="lista-reportes"></div>
+    </div>
+</section>
+</main>
+
+<footer>
+    <p><strong>Noticias de la Juan XXIII</strong></p>
+    <p>Proyecto de comunicación para la comunidad educativa.</p>
+    <p class="muted">Sitio de demostración escolar.</p>
+</footer>
+
+<script>
+"use strict";
+
+// 1. NAVEGACIÓN
+const paginas = document.querySelectorAll(".pagina");
+const botonesMenu = document.querySelectorAll("nav button[data-pagina]");
+
+function mostrarSeccion(id) {
+    const paginaElegida = document.getElementById(id);
+    if (!paginaElegida || !paginaElegida.classList.contains("pagina")) return;
+
+    paginas.forEach(p => p.classList.toggle("activa", p.id === id));
+    botonesMenu.forEach(boton => {
+        const activa = boton.dataset.pagina === id;
+        boton.classList.toggle("activo", activa);
+        if (activa) boton.setAttribute("aria-current", "page");
+        else boton.removeAttribute("aria-current");
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+botonesMenu.forEach(boton => boton.addEventListener("click", () => mostrarSeccion(boton.dataset.pagina)));
+document.querySelectorAll("[data-ir]").forEach(boton => boton.addEventListener("click", () => mostrarSeccion(boton.dataset.ir)));
+
+// 2. ALMACENAMIENTO: SE CONSERVAN LAS CLAVES ANTERIORES
+const CLAVES = {
+    cuenta: "juan23-cuenta-demo",
+    publicaciones: "juan23-publicaciones-demo",
+    reportes: "juan23-reportes-demo"
+};
+
+const cuentaPredeterminada = {
+    nombre: "Estudiante de prueba",
+    curso: "",
+    rol: "estudiante"
+};
+
+let cuenta = { ...cuentaPredeterminada };
+let publicaciones = [];
+let reportadas = [];
+
+function leerDatos(clave, predeterminado) {
+    try {
+        const dato = localStorage.getItem(clave);
+        return dato === null ? predeterminado : JSON.parse(dato);
+    } catch (error) {
+        console.warn("No se pudieron leer los datos guardados:", error);
+        return predeterminado;
+    }
+}
+
+function crearId() {
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+}
+
+function cargarDatos() {
+    const cuentaGuardada = leerDatos(CLAVES.cuenta, cuentaPredeterminada);
+    if (cuentaGuardada && typeof cuentaGuardada === "object" && !Array.isArray(cuentaGuardada)) {
+        cuenta = { ...cuentaPredeterminada, ...cuentaGuardada };
+    }
+    if (!["estudiante", "administracion"].includes(cuenta.rol)) {
+        cuenta.rol = "estudiante";
+    }
+
+    const guardadas = leerDatos(CLAVES.publicaciones, []);
+    publicaciones = Array.isArray(guardadas) ? guardadas.filter(p => p && typeof p === "object") : [];
+
+    // Asignar IDs a publicaciones antiguas que no los tenían.
+    // También normaliza las respuestas sin borrar su contenido.
+    publicaciones.forEach(pub => {
+        if (!pub.id) pub.id = crearId();
+        if (!Array.isArray(pub.respuestas)) pub.respuestas = [];
+        if (!Array.isArray(pub.respuestas)) pub.respuestas = [];
+        pub.respuestas = pub.respuestas.map(r => {
+            if (!r || typeof r !== "object") return { autor: "Usuario", texto: String(r ?? "") };
+            return r;
+        });
+        if (pub.likes == null) pub.likes = 0;
+    });
+
+    const guardadosReportes = leerDatos(CLAVES.reportes, []);
+    reportadas = Array.isArray(guardadosReportes)
+        ? guardadosReportes.map(String)
+        : [];
+
+    // Guardar la migración de IDs y conservar los reportes vinculados.
+    try {
+        localStorage.setItem(CLAVES.publicaciones, JSON.stringify(publicaciones));
+        localStorage.setItem(CLAVES.reportes, JSON.stringify(reportadas));
+    } catch (error) {
+        console.warn("No se pudo actualizar el almacenamiento:", error);
+    }
+}
+
+function guardarDatos() {
+    try {
+        localStorage.setItem(CLAVES.cuenta, JSON.stringify(cuenta));
+        localStorage.setItem(CLAVES.publicaciones, JSON.stringify(publicaciones));
+        localStorage.setItem(CLAVES.reportes, JSON.stringify(reportadas));
+        return true;
+    } catch (error) {
+        console.error("No se pudieron guardar los datos:", error);
+        alert("No se pudieron guardar los cambios. Revisá el almacenamiento del navegador.");
+        return false;
+    }
+}
+
+function escapar(texto) {
+    return String(texto ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+    })[c]);
+}
+
+function esAdmin() {
+    return cuenta.rol === "administracion";
+}
+
+// Para esta demostración, la propiedad se identifica por el nombre público.
+// En una web real se necesitarían cuentas autenticadas.
+function esPropietario(elemento) {
+    return String(elemento.autor || "") === String(cuenta.nombre || "");
+}
+
+function puedeBorrar(elemento) {
+    return esAdmin() || esPropietario(elemento);
+}
+
+// 3. CREAR PUBLICACIONES
+const formularioPublicacion = document.getElementById("form-publicacion");
+
+formularioPublicacion.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const titulo = document.getElementById("titulo-publicacion").value.trim();
+    const contenido = document.getElementById("texto-publicacion").value.trim();
+    const tipo = document.getElementById("tipo-publicacion").value;
+
+    if (!titulo || !contenido) return;
+
+    const pub = {
+        id: crearId(),
+        titulo,
+        contenido,
+        tipo,
+        autor: cuenta.nombre || "Usuario",
+        curso: cuenta.curso || "",
+        fecha: new Date().toLocaleString("es-AR"),
+        likes: 0,
+        respuestas: []
+    };
+
+    publicaciones.unshift(pub);
+
+    if (!guardarDatos()) {
+        publicaciones.shift();
+        return;
+    }
+
+    formularioPublicacion.reset();
+    document.getElementById("estado-publicacion").textContent = "¡Publicación creada correctamente!";
+    renderPublicaciones();
+});
+
+// 4. BORRAR PUBLICACIONES
+function eliminarPublicacion(id) {
+    const indice = publicaciones.findIndex(pub => String(pub.id) === String(id));
+    if (indice < 0) {
+        alert("No se encontró esa publicación. Actualizá el foro e intentá nuevamente.");
+        return;
+    }
+
+    const pub = publicaciones[indice];
+    if (!puedeBorrar(pub)) {
+        alert("Solo podés borrar tus propias publicaciones.");
+        return;
+    }
+
+    if (!confirm("¿Seguro que querés borrar esta publicación y sus respuestas?")) return;
+
+    const anterior = publicaciones;
+    const reportesAnteriores = reportadas;
+    publicaciones = publicaciones.filter(p => String(p.id) !== String(id));
+    reportadas = reportadas.filter(rid => String(rid) !== String(id));
+
+    if (guardarDatos()) {
+        renderPublicaciones();
+        renderReportes();
+    } else {
+        publicaciones = anterior;
+        reportadas = reportesAnteriores;
+    }
+}
+
+// 5. BORRAR RESPUESTAS
+function eliminarRespuesta(idPublicacion, indiceRespuesta) {
+    const pub = publicaciones.find(p => String(p.id) === String(idPublicacion));
+    if (!pub || !Array.isArray(pub.respuestas)) return;
+
+    const respuesta = pub.respuestas[indiceRespuesta];
+    if (!respuesta) return;
+
+    if (!puedeBorrar(respuesta)) {
+        alert("Solo podés borrar tus propias respuestas.");
+        return;
+    }
+
+    if (!confirm("¿Seguro que querés borrar esta respuesta?")) return;
+
+    const respuestasAnteriores = [...pub.respuestas];
+    pub.respuestas.splice(indiceRespuesta, 1);
+
+    if (guardarDatos()) {
+        renderPublicaciones();
+    } else {
+        pub.respuestas = respuestasAnteriores;
+    }
+}
+
+// 6. MOSTRAR PUBLICACIONES Y RESPUESTAS
+function renderPublicaciones() {
+    const lista = document.getElementById("lista-publicaciones");
+    const mensajeVacio = document.getElementById("sin-publicaciones");
+    lista.innerHTML = "";
+    mensajeVacio.classList.toggle("oculto", publicaciones.length > 0);
+
+    publicaciones.forEach(pub => {
+        const articulo = document.createElement("article");
+        articulo.className = "publicacion";
+
+        const respuestas = Array.isArray(pub.respuestas) ? pub.respuestas : [];
+        const likes = Math.max(0, Number(pub.likes) || 0);
+        const yaReportada = reportadas.includes(String(pub.id));
+
+        articulo.innerHTML = `
+            <p><strong>${escapar(pub.tipo || "General")}</strong></p>
+            <h3>${escapar(pub.titulo || "Publicación")}</h3>
+            <p>${escapar(pub.contenido || "").replace(/\n/g, "<br>")}</p>
+            <small>Publicado por ${escapar(pub.autor || "Usuario")}${pub.curso ? " · " + escapar(pub.curso) : ""}</small>
+            <br><small class="muted">${escapar(pub.fecha || "")}</small>
+            <div class="acciones">
+                <button type="button" data-accion="like">Me gusta (${likes})</button>
+                <button type="button" data-accion="responder">Respuestas (${respuestas.length})</button>
+                <button type="button" class="btn-reportar" data-accion="reportar" ${yaReportada ? "disabled" : ""}>
+                    ${yaReportada ? "Reportada" : "Reportar"}
+                </button>
+                ${puedeBorrar(pub) ? `<button type="button" class="btn-borrar" data-accion="borrar">🗑️ Borrar publicación</button>` : ""}
+            </div>
+            <div class="zona-respuestas oculto">
+                <h4>Respuestas</h4>
+                <div class="lista-respuestas"></div>
+                <form class="form-respuesta formulario">
+                    <label class="etiqueta">Escribí una respuesta</label>
+                    <textarea name="respuesta" maxlength="1000" required placeholder="Tu respuesta..."></textarea>
+                    <button type="submit" class="btn">Enviar respuesta</button>
+                </form>
+            </div>
+        `;
+
+        const zona = articulo.querySelector(".zona-respuestas");
+        const listaRespuestas = articulo.querySelector(".lista-respuestas");
+
+        respuestas.forEach((respuesta, indice) => {
+            const elemento = document.createElement("div");
+            elemento.className = "respuesta";
+
+            const cabecera = document.createElement("div");
+            cabecera.className = "respuesta-cabecera";
+
+            const nombre = document.createElement("strong");
+            nombre.textContent = (respuesta.autor || "Usuario") + ":";
+
+            cabecera.appendChild(nombre);
+
+            if (puedeBorrar(respuesta)) {
+                const botonBorrar = document.createElement("button");
+                botonBorrar.type = "button";
+                botonBorrar.className = "btn-pequeno btn-borrar";
+                botonBorrar.textContent = "🗑️ Borrar respuesta";
+                botonBorrar.addEventListener("click", () => eliminarRespuesta(pub.id, indice));
+                cabecera.appendChild(botonBorrar);
+            }
+
+            const texto = document.createElement("p");
+            texto.textContent = respuesta.texto || "";
+
+            elemento.appendChild(cabecera);
+            elemento.appendChild(texto);
+
+            if (respuesta.fecha) {
+                const fecha = document.createElement("small");
+                fecha.className = "muted";
+                fecha.textContent = respuesta.fecha;
+                elemento.appendChild(fecha);
+            }
+
+            listaRespuestas.appendChild(elemento);
+        });
+
+        articulo.querySelector('[data-accion="like"]').addEventListener("click", () => {
+            const anterior = pub.likes;
+            pub.likes = Math.max(0, Number(pub.likes) || 0) + 1;
+            if (guardarDatos()) renderPublicaciones();
+            else pub.likes = anterior;
+        });
+
+        articulo.querySelector('[data-accion="responder"]').addEventListener("click", () => {
+            zona.classList.toggle("oculto");
+        });
+
+        articulo.querySelector('[data-accion="reportar"]').addEventListener("click", () => {
+            if (reportadas.includes(String(pub.id))) {
+                alert("Esta publicación ya fue reportada.");
+                return;
+            }
+            if (!confirm("¿Querés reportar esta publicación para que se revise?")) return;
+
+            reportadas.push(String(pub.id));
+            if (guardarDatos()) {
+                renderPublicaciones();
+                renderReportes();
+                alert("Reporte registrado en esta demostración.");
+            } else {
+                reportadas = reportadas.filter(id => id !== String(pub.id));
+            }
+        });
+
+        const botonBorrarPub = articulo.querySelector('[data-accion="borrar"]');
+        if (botonBorrarPub) {
+            botonBorrarPub.addEventListener("click", () => eliminarPublicacion(pub.id));
+        }
+
+        articulo.querySelector(".form-respuesta").addEventListener("submit", function(evento) {
+            evento.preventDefault();
+            const entrada = evento.currentTarget.elements.respuesta;
+            const texto = entrada.value.trim();
+            if (!texto) return;
+
+            if (!Array.isArray(pub.respuestas)) pub.respuestas = [];
+
+            const respuestaNueva = {
+                autor: cuenta.nombre || "Usuario",
+                texto,
+                fecha: new Date().toLocaleString("es-AR")
+            };
+
+            pub.respuestas.push(respuestaNueva);
+            if (guardarDatos()) renderPublicaciones();
+            else pub.respuestas.pop();
+        });
+
+        lista.appendChild(articulo);
+    });
+}
+
+// 7. CUENTA Y MODOS
+const formularioCuenta = document.getElementById("form-cuenta");
+
+function mostrarCuenta() {
+    document.getElementById("nombre-usuario").value =
+        cuenta.nombre === "Estudiante de prueba" ? "" : cuenta.nombre;
+    document.getElementById("curso-usuario").value = cuenta.curso || "";
+    document.getElementById("rol-usuario").value = cuenta.rol;
+    actualizarModo();
+}
+
+function actualizarModo() {
+    const admin = esAdmin();
+    document.getElementById("estado-cuenta").textContent =
+        "Modo actual: " + (admin ? "Administración (demo)" : "Estudiante");
+    document.getElementById("panel-admin").classList.toggle("oculto", !admin);
+    renderPublicaciones();
+    renderReportes();
+}
+
+formularioCuenta.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const nombre = document.getElementById("nombre-usuario").value.trim();
+    const curso = document.getElementById("curso-usuario").value.trim();
+    const rol = document.getElementById("rol-usuario").value;
+
+    if (!nombre) {
+        alert("Escribí un nombre público para continuar.");
+        return;
+    }
+
+    const anterior = { ...cuenta };
+    cuenta = { nombre, curso, rol };
+
+    if (!guardarDatos()) {
+        cuenta = anterior;
+        return;
+    }
+
+    actualizarModo();
+    alert("Modo de prueba guardado correctamente.");
+});
+
+// 8. PANEL ADMINISTRADOR Y REPORTES
+function renderReportes() {
+    const lista = document.getElementById("lista-reportes");
+    if (!esAdmin()) {
+        lista.innerHTML = "";
+        return;
+    }
+
+    lista.innerHTML = "";
+    const encontradas = publicaciones.filter(pub => reportadas.includes(String(pub.id)));
+
+    if (encontradas.length === 0) {
+        const mensaje = document.createElement("p");
+        mensaje.className = "muted";
+        mensaje.textContent = "No hay publicaciones reportadas.";
+        lista.appendChild(mensaje);
+        return;
+    }
+
+    encontradas.forEach(pub => {
+        const tarjeta = document.createElement("article");
+        const titulo = document.createElement("h4");
+        titulo.textContent = pub.titulo || "Publicación";
+
+        const autor = document.createElement("p");
+        autor.textContent = "Autor: " + (pub.autor || "Usuario");
+
+        const contenido = document.createElement("p");
+        contenido.textContent = pub.contenido || "";
+
+        const estado = document.createElement("p");
+        estado.className = "muted";
+        estado.textContent = "Estado: pendiente de revisión";
+
+        const acciones = document.createElement("div");
+        acciones.className = "acciones";
+
+        const botonRevisada = document.createElement("button");
+        botonRevisada.type = "button";
+        botonRevisada.className = "btn btn-sec";
+        botonRevisada.textContent = "Marcar como revisada";
+        botonRevisada.addEventListener("click", () => {
+            const anterior = [...reportadas];
+            reportadas = reportadas.filter(id => id !== String(pub.id));
+            if (guardarDatos()) {
+                renderReportes();
+                renderPublicaciones();
+            } else {
+                reportadas = anterior;
+            }
+        });
+
+        const botonBorrar = document.createElement("button");
+        botonBorrar.type = "button";
+        botonBorrar.className = "btn btn-borrar";
+        botonBorrar.textContent = "🗑️ Borrar publicación";
+        botonBorrar.addEventListener("click", () => eliminarPublicacion(pub.id));
+
+        acciones.append(botonRevisada, botonBorrar);
+        tarjeta.append(titulo, autor, contenido, estado, acciones);
+        lista.appendChild(tarjeta);
+    });
+}
+
+document.getElementById("ver-reportes").addEventListener("click", () => {
+    renderReportes();
+    document.getElementById("lista-reportes").scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+});
+
+// 9. INICIAR
+cargarDatos();
+mostrarCuenta();
+renderPublicaciones();
+renderReportes();
+mostrarSeccion("inicio");
+</script>
+</body>
+</html>
